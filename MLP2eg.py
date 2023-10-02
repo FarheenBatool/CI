@@ -5,8 +5,8 @@ import math
 def sigmoid(x):
     return 1 / (1 + math.exp(-x))
 
-def initialize_weights(input_size):
-    return [random.uniform(-1, 1) for _ in range(input_size)]
+#def initialize_weights(input_size):
+ #   return [random.uniform(-1, 1) for _ in range(input_size)]
 
 
 def weighted_sum(inputs, weights):
@@ -27,12 +27,13 @@ def generate_student_data():
     return [study_time, attendance, previous_test_scores]
 
 
-def calculate_exam_score(features):  
+def calculate_exam_score(features):
     return predict(features, weights)
 
 learning_rate = 0.1
 epochs = 1000
-weights = initialize_weights(3)
+weights = [0.2, 0.3, 0.1]  
+
 
 for epoch in range(epochs):
     features = generate_student_data()
@@ -44,6 +45,6 @@ for epoch in range(epochs):
     if epoch % 100 == 0:
         print(f"Epoch {epoch + 1}: Error = {error}")
 
-test_features = [5.0, 0.8, 80.0]  
+test_features = [5.0, 0.8, 100.0]  
 predicted_score = calculate_exam_score(test_features)
 print(f"Predicted Exam Score: {predicted_score:.2f}")
