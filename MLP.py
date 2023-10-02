@@ -1,12 +1,15 @@
+import random
+import math
+
 xInput = []
 Input3 = []
-xWeigth1 = [0.6,0.6]
-xWeigth2 = [1.1,1.1]
-xWeigth3 = [-2,1.1]
-
+xWeigth1 = [random.uniform(-1, 1), random.uniform(-1, 1)]
+xWeigth2 = [random.uniform(-1, 1), random.uniform(-1, 1)]
+xWeigth3 = [random.uniform(-1, 1), random.uniform(-1, 1)]
 
 
 threshold = 1
+
 def step(weightedSum):
     if(weightedSum) > threshold:
         return 1
@@ -14,34 +17,33 @@ def step(weightedSum):
         return 0
 
 
-def perceptron1():
-    weightedSum1=0
-    for x,w in zip(xInput,xWeigth1):
-        weightedSum1 += x*w
-    return step(weightedSum1)
 
-def perceptron2():
-    weightedSum2=0
-    for x,w in zip(xInput,xWeigth2):
-        weightedSum2 += x*w
-    return step(weightedSum2)   
+def generate_xor_target(input1, input2):
+    return int(input1) ^ int(input2)
 
-def perceptron3():
-    weightedSum3=0
-    for x,w in zip(Input3,xWeigth3):
-        weightedSum3 += x*w
-    return step(weightedSum3)  
 
-for i in range(2):
-    user_input = input(f"Enter the value for xInput[{i}]: ")
-    try:
-        xInput.append(int(user_input))
-    except ValueError:
-        print("Invalid input. Please enter an integer.")
+def perceptron(xInput,xWeigth):
+    weightedSum=0
+    for x,w in zip(xInput,xWeigth):
+        weightedSum += int(x)*w
+    return step(weightedSum)
 
-output1 = perceptron1()
-output2 = perceptron2()
+def calculate_error(target, output):
+    return target - output
+
+input1 = input("Enter the value for input1 (0 or 1): ")
+input2 = input("Enter the value for input2 (0 or 1): ")
+xInput = [input1,input2]
+
+input1 = int(input1)
+input2 = int(input2)
+
+output1 = perceptron(xInput,xWeigth1)
+output2 = perceptron(xInput,xWeigth2)
 Input3 = [output1,output2]
-output = perceptron3()
+output = perceptron(Input3,xWeigth3)
+target_output = generate_xor_target(input1, input2)
+error = calculate_error(target_output, output)
 
 print(output)
+print("Error is " + str(error * 100) + "%")
